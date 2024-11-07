@@ -1,0 +1,156 @@
+NEPAVYKES A3(A1)
+-------------------------------------------------------------------------------------------
+zidinio_ID zidinio_pavadinimas adresas_pasto_kodas draudimas_id draudimas_pasirasymo_data ????
+
+SELECT zidinys.id AS id,
+zidinys.vardas AS pavadinimas,
+draudimas.id as draudimo_id,
+COUNT(IF(YEAR(draudimas.pasirasymo_data)>=2000 AND YEAR(draudimas.pasirasymo_data)<2020,1,NULL)) AS paimta
+FROM zidinys INNER JOIN draudimas ON draudimas.fk_ZIDINYSid = zidinys.id
+GROUP BY pavadinimas
+ORDER BY paimta DESC
+
+SELECT zidinys.id AS id,
+zidinys.vardas AS pavadinimas,
+draudimas.id as draudimo_id,
+COUNT(IF(YEAR(draudimas.pasirasymo_data)>=2015 AND YEAR(draudimas.pasirasymo_data)<2020,1,NULL)) AS paimta
+FROM zidinys INNER JOIN draudimas ON draudimas.fk_ZIDINYSid = zidinys.id
+GROUP BY pavadinimas
+ORDER BY paimta DESC
+
+SELECT zidinys.id AS id,
+zidinys.vardas AS pavadinimas,
+draudimas.id as draudimo_id,
+COUNT(IF(YEAR(draudimas.pasirasymo_data)>=2000 AND YEAR(draudimas.pasirasymo_data)<2020,1,NULL)) AS paimta,
+adresas.pasto_kodas
+FROM zidinys inner JOIN draudimas ON draudimas.fk_ZIDINYSid = zidinys.id
+inner join adresas ON adresas.id_ADRESAS = zidinys.fk_ADRESASid_ADRESAS
+GROUP BY pavadinimas
+ORDER BY paimta DESC
+
+------------------------------------------------------------------------------------------
+NEPAVYKES A3(A1)
+------------------------------------------------------------------------------------------
+zidinys.medziaga zidinys.vardas adresas.pasto_kodas pirkejas vardas
+
+
+SELECT 
+zidinys.medziaga,
+zidinys.vardas,
+adresas.pasto_kodas,
+pirkejas.vardas,
+zidinys.ilgis,
+COUNT(IF(zidinys.ilgis>=20 AND zidinys.ilgis<200,1,NULL)) AS paimta
+FROM zidinys
+LEFT JOIN adresas.pasto_kodas ON adresas.id_ADRESAS = zidinys.fk_ADRESASid_ADRESAS
+LEFT JOIN pirkejas.vardas ON pirkejas.id_PIRKEJAS = adresas.fk_PIRKEJASid_PIRKEJAS
+GROUP BY zidinys.vardas
+ORDER BY zidinys.vardas
+------------------------------------------------------------------------------
+GALUTINIS (GAL) A3
+------------------------------------------------------------------------------
+imone.id,
+imone.pavadinimas,
+zidinys.medziaga,
+COUNT(darbuotojas.vardas),
+AVG(darbuotojas.alga)
+
+testas 1(daugiau negu 500, medziaga - medis)
+
+SELECT
+imone.id as "Įmonės ID",
+imone.pavadinimas as "Įmonės pavadinimas",
+if(zidinys.medziaga = "medis",zidinys.medziaga,null) as "Židinio statymui naudojama medžiaga",
+ROUND(AVG((zidinys.ilgis*zidinys.plotis*zidinys.aukstis)/1000)) as "Vidutinis židinių tūris dm3",
+COUNT(if(darbuotojas.alga > 500,1,null)) as "darbuotojai uždirbę daugiau nei...",
+AVG(darbuotojas.alga) as "Vidutinė darbuotojų alga"
+FROM imone
+LEFT JOIN zidinys ON zidinys.medziaga
+RIGHT JOIN darbuotojas ON zidinys.id = darbuotojas.fk_ZIDINYSid AND darbuotojas.fk_IMONEid = imone.id
+GROUP BY imone.pavadinimas, zidinys.medziaga
+HAVING(COUNT(if(darbuotojas.alga > 500,1,null)))>0 AND
+(if(zidinys.medziaga = "medis",zidinys.medziaga,null))is not null
+ORDER BY imone.pavadinimas, zidinys.medziaga
+
+testas 1(daugiau negu 1000, medziaga - plienas)
+
+SELECT
+imone.id as "Įmonės ID",
+imone.pavadinimas as "Įmonės pavadinimas",
+if(zidinys.medziaga = "plienas",zidinys.medziaga,null) as "Židinio statymui naudojama medžiaga",
+ROUND(AVG((zidinys.ilgis*zidinys.plotis*zidinys.aukstis)/1000)) as "Vidutinis židinių tūris dm3",
+COUNT(if(darbuotojas.alga > 1000,1,null)) as "darbuotojai uždirbę daugiau nei...",
+AVG(darbuotojas.alga) as "Vidutinė darbuotojų alga"
+FROM imone
+LEFT JOIN zidinys ON zidinys.medziaga
+RIGHT JOIN darbuotojas ON zidinys.id = darbuotojas.fk_ZIDINYSid AND darbuotojas.fk_IMONEid = imone.id
+GROUP BY imone.pavadinimas, zidinys.medziaga
+HAVING(COUNT(if(darbuotojas.alga > 500,1,null)))>0 AND
+(if(zidinys.medziaga = "medis",zidinys.medziaga,null))is not null
+ORDER BY imone.pavadinimas, zidinys.medziaga
+
+==========================================================================================
+SELECT
+imone.pavadinimas,
+zidinys.medziaga,
+ROUND(AVG((zidinys.ilgis*zidinys.plotis*zidinys.aukstis)/1000)) as "Vidutinis židinių tūris dm3",
+COUNT(if(darbuotojas.alga > 0 and darbuotojas.alga < 600,1,null)),
+sum(if(darbuotojas.alga > 0 and darbuotojas.alga < 600,darbuotojas.alga,null)),
+viso.visas,
+visoviso.visasvisas
+FROM imone
+LEFT JOIN zidinys ON zidinys.medziaga
+
+LEFT JOIN(
+          SELECT imone.pavadinimas as pavadinimas,
+          SUM(if(darbuotojas.alga > 0 and darbuotojas.alga < 600,darbuotojas.alga,null)) as visas
+          FROM imone
+          LEFT JOIN zidinys ON zidinys.medziaga
+          RIGHT JOIN darbuotojas ON zidinys.id = darbuotojas.fk_ZIDINYSid AND darbuotojas.fk_IMONEid = imone.id
+          GROUP BY imone.pavadinimas
+         )as viso ON viso.pavadinimas = imone.pavadinimas
+LEFT JOIN(
+          SELECT
+          SUM(if(darbuotojas.alga > 0 and darbuotojas.alga < 600,darbuotojas.alga,null)) as visasvisas
+          FROM imone
+          LEFT JOIN zidinys ON zidinys.medziaga
+          RIGHT JOIN darbuotojas ON zidinys.id = darbuotojas.fk_ZIDINYSid AND darbuotojas.fk_IMONEid = imone.id
+         )as visoviso ON visasvisas>0
+         
+RIGHT JOIN darbuotojas ON zidinys.id = darbuotojas.fk_ZIDINYSid AND darbuotojas.fk_IMONEid = imone.id
+GROUP BY imone.pavadinimas, zidinys.medziaga
+HAVING(COUNT(if(darbuotojas.alga > 0 and darbuotojas.alga < 600,1,null)))>0
+ORDER BY Pavadinimas
+
+
+SELECT
+imone.pavadinimas,
+zidinys.medziaga,
+ROUND(AVG((zidinys.ilgis*zidinys.plotis*zidinys.aukstis)/1000)) as Vidutinis_židinių_tūris_dm3,
+COUNT(if(darbuotojas.alga > 0 and darbuotojas.alga < 6000,1,null)) as ct,
+sum(if(darbuotojas.alga > 0 and darbuotojas.alga < 6000,darbuotojas.alga,null)) as sm,
+viso.visas,
+visoviso.visasvisas
+FROM imone
+LEFT JOIN zidinys ON zidinys.medziaga
+
+LEFT JOIN(
+          SELECT imone.pavadinimas as pavadinimas,
+          SUM(if(darbuotojas.alga > 0 and darbuotojas.alga < 6000,darbuotojas.alga,null)) as visas
+          FROM imone
+          LEFT JOIN zidinys ON zidinys.medziaga
+          RIGHT JOIN darbuotojas ON zidinys.id = darbuotojas.fk_ZIDINYSid AND darbuotojas.fk_IMONEid = imone.id
+          GROUP BY imone.pavadinimas
+         )as viso ON viso.pavadinimas = imone.pavadinimas
+LEFT JOIN(
+          SELECT
+          SUM(if(darbuotojas.alga > 0 and darbuotojas.alga < 6000,darbuotojas.alga,null)) as visasvisas
+          FROM imone
+          LEFT JOIN zidinys ON zidinys.medziaga
+          RIGHT JOIN darbuotojas ON zidinys.id = darbuotojas.fk_ZIDINYSid AND darbuotojas.fk_IMONEid = imone.id
+         )as visoviso ON visasvisas>0
+         
+RIGHT JOIN darbuotojas ON zidinys.id = darbuotojas.fk_ZIDINYSid AND darbuotojas.fk_IMONEid = imone.id
+GROUP BY imone.pavadinimas, zidinys.medziaga
+HAVING(COUNT(if(darbuotojas.alga > 0 and darbuotojas.alga < 6000,1,null)))>0
+ORDER BY Pavadinimas

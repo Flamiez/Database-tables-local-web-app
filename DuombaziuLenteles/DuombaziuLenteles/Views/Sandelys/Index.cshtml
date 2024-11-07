@@ -1,0 +1,66 @@
+﻿@model IEnumerable<DuombaziuLenteles.ViewModels.SandelysViewModel>
+
+@{
+    ViewBag.Title = "Sandeliai";
+}
+
+<h2>Sandelių sąrašas</h2>
+
+<p>
+    @Html.ActionLink("Naujas sandelys", "Create", "Sandelys", new { @class = "btn btn-success" })
+</p>
+<table class="table table-striped datatable">
+    <thead>
+        <tr style="background-color: lightblue">
+            <th>
+                @Html.DisplayNameFor(model => model.pavadinimas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pastatymo_metai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.skirtingu_saugomu_medziagu_kiekis)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.talpa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.adresas)
+            </th>
+            <th style="width: 18%"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pavadinimas)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Imone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.pastatymo_metai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.skirtingu_saugomu_medziagu_kiekis)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.talpa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.adresas)
+                </td>
+                <td>
+                    @Html.ActionLink("Redaguoti", "Edit", new { id = item.id_SANDELYS }, new { @class = "btn btn-primary action" })
+                    @Html.ActionLink("Šalinti", "Delete", new { id = item.id_SANDELYS }, new { @class = "btn btn-danger action" })
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

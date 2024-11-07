@@ -1,0 +1,54 @@
+﻿@model IEnumerable<DuombaziuLenteles.Models.pirkejas>
+
+@{
+    ViewBag.Title = "Pirkėjai";
+}
+
+<h2>Pirkėjai</h2>
+
+<p>
+    @Html.ActionLink("Naujas klientas", "Create", "Pirkejas", new { @class="btn btn-success"})
+</p>
+<table class="table table-striped datatable">
+    <thead>
+    <tr style="background-color: lightblue">
+        <th>
+            @Html.DisplayNameFor(model => model.asm_kodas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.vardas)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pavarde)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tel_numeris)
+        </th>
+        <th style="width: 18%"></th>
+    </tr>
+        </thead>
+    <tbody>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.asm_kodas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.vardas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pavarde)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tel_numeris)
+        </td>
+        <td>
+            @Html.ActionLink("Redaguoti", "Edit", new { id = item.id_PIRKEJAS }, new { @class= "btn btn-primary action" }) 
+            @Html.ActionLink("Šalinti", "Delete", new { id = item.id_PIRKEJAS }, new { @class= "btn btn-danger action" })
+        </td>
+    </tr>
+}
+        </tbody>
+
+</table>

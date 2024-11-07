@@ -1,0 +1,52 @@
+﻿@model DuombaziuLenteles.ViewModels.SandelysEditViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Sandelio šalinimas</h2>
+
+<h3>Ar tikrai norite pašalinti šį sandelį?</h3>
+<div>
+    <h4>Sandelys</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.pavadinimas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pavadinimas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pastatymo_metai)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pastatymo_metai)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.talpa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.talpa)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+
+            <input type="submit" value="Šalinti" class="btn btn-danger" />
+
+            @Html.ActionLink("Atgal į sąrašą", "Index", "Sandelys", new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

@@ -1,0 +1,52 @@
+﻿@model DuombaziuLenteles.ViewModels.DraudimasEditViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Draudimo šalinimas</h2>
+
+<h3>Ar tikrai norite pašalinti šį draudimą?</h3>
+<div>
+    <h4>Draudimas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pasirasymo_data)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pasirasymo_data)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.galiojimo_laikotarpis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.galiojimo_laikotarpis)
+        </dd>
+
+
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+
+            <input type="submit" value="Šalinti" class="btn btn-danger" />
+
+            @Html.ActionLink("Atgal į sąrašą", "Index", "Draudimas", new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

@@ -1,0 +1,66 @@
+﻿@model DuombaziuLenteles.Models.pirkejas
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Pirkėjo šalinimas</h2>
+
+<h3>Ar tikrai norite pašalinti šį pirkėją?</h3>
+<div>
+    <h4>Pirkėjas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id_PIRKEJAS)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id_PIRKEJAS)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.asm_kodas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.asm_kodas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.vardas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.vardas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pavarde)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pavarde)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tel_numeris)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tel_numeris)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+
+        <input type="submit" value="Šalinti" class="btn btn-danger" />
+
+        @Html.ActionLink("Atgal į sąrašą", "Index", "Pirkėjas", new { @class = "btn btn-default" })
+    </div>
+    }
+</div>

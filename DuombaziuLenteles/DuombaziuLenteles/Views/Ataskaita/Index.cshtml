@@ -1,0 +1,92 @@
+﻿@model DuombaziuLenteles.ViewModels.AtaskaiktaViewModel2
+
+@{
+    ViewBag.Title = "Įmonių atskaita";
+}
+
+<h2>Įmonių atskaita</h2>
+<p><b>Parengta:</b> @DateTime.Now</p>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.nuo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nuo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nuo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.iki, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.iki, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.iki, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Atrinkti" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<table class="table table-striped">
+    <td colspan="4"></td>
+    <tr style="background-color:lightblue">
+        <th>
+            @Html.DisplayNameFor(model => model.list[0].medziaga)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.list[0].VZidTuris)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.list[0].DarbuotojuUzdirbusiuTarp)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.list[0].DarbuotojuUzdirbusiuTarpSuma)
+        </th>
+    </tr>
+    @if (Model.list.Count == 0)
+    {
+        <tr>
+            <td colspan="4" align="center"><b style="color:red;">Nėra duomenų pagal duotą sąlygą</b></td>
+        </tr>
+    }
+
+    @for (int i = 0; i < Model.list.Count; i++)
+    {
+        if (i == 0 || Model.list[i].Imone != Model.list[i - 1].Imone)
+        {
+            <tr style="background-color: lightblue">
+                <td colspan="4" align="center"><b>@Model.list[i].Imone</b></td>
+            </tr>
+        }
+        <tr>
+            <td>@Model.list[i].medziaga</td>
+            <td>@Model.list[i].VZidTuris</td>
+            <td>@Model.list[i].DarbuotojuUzdirbusiuTarp</td>
+            <td>@Model.list[i].DarbuotojuUzdirbusiuTarpSuma</td>
+        </tr>
+
+        if (i == Model.list.Count - 1 || Model.list[i].Imone != Model.list[i + 1].Imone)
+        {
+            <tr>
+                <td colspan="3"></td>
+                <td><b>@Model.list[i].viso</b></td>
+
+            </tr>
+        }
+    }
+    <tr style="background-color: lightblue">
+        <td height="10px;" colspan="4" align="center"><b>Bendra suma</b></td>
+    </tr>
+    <tr>
+        <td colspan="3"></td>
+        <td>
+            @Html.DisplayFor(modelItem => Model.visoviso)
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,90 @@
+﻿@model DuombaziuLenteles.ViewModels.DarbuotojasEditViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Pirkėjo šalinimas</h2>
+
+<h3>Ar tikrai norite pašalinti šį darbuotoją?</h3>
+<div>
+    <h4>Pirkėjas</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.asmens_kodas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.asmens_kodas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.vardas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.vardas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.pavarde)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.pavarde)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.telefono_numeris)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.telefono_numeris)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.alga)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.alga)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fk_IMONEid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fk_IMONEid)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.fk_ZIDINYSid)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.fk_ZIDINYSid)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+
+        <input type="submit" value="Šalinti" class="btn btn-danger" />
+
+        @Html.ActionLink("Atgal į sąrašą", "Index", "Darbuotojas", new { @class = "btn btn-default" })
+    </div>
+    }
+</div>

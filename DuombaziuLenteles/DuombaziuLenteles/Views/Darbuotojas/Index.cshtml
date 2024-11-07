@@ -1,0 +1,79 @@
+﻿@model IEnumerable<DuombaziuLenteles.ViewModels.DarbuotojasViewModel>
+
+@{
+    ViewBag.Title = "Darbuotojai";
+}
+
+<h2>Darbuotojai</h2>
+
+<p>
+    @Html.ActionLink("Naujas darbuotojas", "Create", "Darbuotojas", new { @class = "btn btn-success" })
+</p>
+<table class="table table-striped datatable">
+    <thead>
+        <tr style="background-color: lightblue">
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.asmens_kodas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.vardas)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.pavarde)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.telefono_numeris)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.alga)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fk_IMONEid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fk_ZIDINYSid)
+            </th>
+            <th style="width: 18%"></th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.asmens_kodas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.vardas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.pavarde)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.telefono_numeris)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.alga)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fk_IMONEid)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fk_ZIDINYSid)
+            </td>
+            <td>
+                @Html.ActionLink("Redaguoti", "Edit", new { id = item.id }, new { @class = "btn btn-primary action" })
+                @Html.ActionLink("Šalinti", "Delete", new { id = item.id }, new { @class = "btn btn-danger action" })
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>
